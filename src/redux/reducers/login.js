@@ -10,6 +10,7 @@ const loginReducer = (state = initialState, action) => {
     case LOGIN_USER:
       return { ...state, user: payload };
     case LOGOUT_USER:
+      console.log(payload)
       return { ...state, user: null };
     default:
       return state;

@@ -1,7 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/actions/login";
+import {connect} from 'react-redux'
 
-const Navbar = (props) => {
+const Navbar = ({user, logout}) => {
+  const [use, setUser] = useState("")
+  const handleLogin = () => {
+    setUser(user)
+  }
+  const handleLogout = () => {
+    console.log('clicked');
+    logout()
+    setUser(null)
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <i className="mx-3 fa fa-bars text-muted" aria-hidden="true"></i>
@@ -47,18 +58,38 @@ const Navbar = (props) => {
               <i className="fa fa-video-camera" aria-hidden="true"></i>
             </Link>
           </li>
-          <li className="nav-item">
+          {!user ? <li className="nav-item">
             <Link
               className="nav-link btn btn-outline-primary text-primary"
+              onClick={handleLogin}
               to="/signup"
             >
               Signup
             </Link>
-          </li>
+          </li> : <li className="nav-item">
+            <a
+              className="nav-link btn btn-outline-danger text-danger"
+              onClick = {handleLogout}
+            >
+              Signout
+            </a>
+          </li>}
         </ul>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    user : state.loginReducer.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout : () => dispatch(logout())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

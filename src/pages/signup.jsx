@@ -5,7 +5,7 @@ import { login } from "../redux/actions/login";
 import {connect} from 'react-redux'
 // import {Redirect} from 'react-router-dom'
 
-const Signup = ({login, history}) => {
+const Signup = ({login, history, user, logout}) => {
   const responseGoogle = (response) => {
     const client = new OAuth2Client(
       "1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
@@ -36,8 +36,9 @@ const Signup = ({login, history}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (user) => dispatch(login(user)),
+    login: (user) => dispatch(login(user))
   };
 };
+
 
 export default connect(null, mapDispatchToProps)(Signup);
