@@ -1,36 +1,43 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import { OAuth2Client } from "google-auth-library";
+import { login } from "../redux/actions/login";
+import {connect} from 'react-redux'
+// import {Redirect} from 'react-router-dom'
 
-const Signup = (props) => {
+const Signup = ({login, history}) => {
   const responseGoogle = (response) => {
-    console.log(response);
+    const client = new OAuth2Client(
+      "1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
+    );
+    client
+      .verifyIdToken({
+        idToken: response.tokenId,
+        audience:
+          "1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com",
+      })
+      .then((resp) => {
+        login(resp.payload)
+        history.push("/profile")
+        
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <GoogleLogin
-      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-      buttonText="login"
+      clientId="1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
+      buttonText="Login with Google."
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={"single_host_origin"}
     />
-    // <GoogleLogin
-    //   clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-    //   render={(renderProps) => (
-    //     <div
-    //       onClick={renderProps.onClick}
-    //       disabled={renderProps.disabled}
-    //       className="google-btn"
-    //     >
-    //       <i className="fa fa-google google-login-icon text-primary "></i>
-    //       <button className="">Continue with Google</button>
-    //     </div>
-    //   )}
-    //   buttonText="Login"
-    //   onSuccess={responseGoogle}
-    //   onFailure={responseGoogle}
-    //   cookiePolicy={"single_host_origin"}
-    // />
   );
 };
 
-export default Signup;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (user) => dispatch(login(user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Signup);

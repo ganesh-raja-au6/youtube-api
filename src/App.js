@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Navbar from "./components/navbar";
 import Signup from "./pages/signup";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/signup" component={Signup} />
-        {/* <Redirect to="/" /> */}
+        <Route exact path="/profile" component={Profile} />
+        <Redirect to="/" />
       </Switch>
     </div>
   );
