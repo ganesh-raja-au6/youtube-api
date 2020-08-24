@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 
 const Signup = ({login, history, user, logout}) => {
   const responseGoogle = (response) => {
+    console.log(response)
     const client = new OAuth2Client(
       "1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
     );
@@ -29,7 +30,9 @@ const Signup = ({login, history, user, logout}) => {
       buttonText="Login with Google."
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
+      isSignedIn={true}
       cookiePolicy={"single_host_origin"}
+      scope="https://www.googleapis.com/auth/youtube"
     />
   );
 };

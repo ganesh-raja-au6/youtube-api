@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../redux/actions/login";
 import {connect} from 'react-redux'
+import {GoogleLogout} from 'react-google-login'
 
 const Navbar = ({user, logout}) => {
   const [use, setUser] = useState("")
@@ -12,6 +13,12 @@ const Navbar = ({user, logout}) => {
     console.log('clicked');
     logout()
     setUser(null)
+  }
+  const logoutFailure = (err) => {
+    console.log(err)
+  }
+  const logoutSuccess = (res) => {
+    console.log(res)
   }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -71,7 +78,12 @@ const Navbar = ({user, logout}) => {
               className="nav-link btn btn-outline-danger text-danger"
               onClick = {handleLogout}
             >
-              Signout
+              <GoogleLogout
+              clientId="1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
+              buttonText="Logout"
+              onLogoutSuccess={logoutSuccess}
+              onLogoutFailure={logoutFailure}
+              />
             </a>
           </li>}
         </ul>
