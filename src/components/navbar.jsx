@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../redux/actions/login";
+import {search} from "../redux/actions/search"
 import {connect} from 'react-redux'
 import {GoogleLogout} from 'react-google-login'
 
-const Navbar = ({user, logout}) => {
-  const [use, setUser] = useState("")
+const Navbar = ({user, logout, searchTerm}) => {
+  const [, setUser] = useState("")
+  const [search, setSearch] = useState("")
   const handleLogin = () => {
     setUser(user)
   }
@@ -19,6 +21,10 @@ const Navbar = ({user, logout}) => {
   }
   const logoutSuccess = (res) => {
     console.log(res)
+  }
+  const handleSearch = () => {
+    localStorage.removeItem('videos')
+    searchTerm(search)
   }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,10 +50,12 @@ const Navbar = ({user, logout}) => {
               type="search"
               name="search"
               id="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search"
               className="form-control search"
             />
-            <div className="input-group-append">
+            <div className="input-group-append" onClick={handleSearch}>
               <span className="input-group-text search text-muted">
                 <i className="fa fa-search" aria-hidden="true"></i>
               </span>
@@ -100,7 +108,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout : () => dispatch(logout())
+    logout : () => dispatch(logout()),
+    searchTerm : (val) => dispatch(search(val))
   }
 }
 

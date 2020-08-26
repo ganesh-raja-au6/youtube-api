@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 
 const Profile = ({ user }) => {
-  if (user === null) {
+  if (user === null || !user) {
     return (
       <Switch>
         <Redirect to="/signup"></Redirect>
