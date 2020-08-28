@@ -1,7 +1,5 @@
-export const LOGIN_USER = "LOGIN_USER"
-
+export const SET_USER = "SET_USER"
+export const ISAUTHENTICATED = "ISAUTHENTICATED"
+export const SET_VIDEOS = "SET_VIDEOS"
+export const TOGGLE_FETCH = "TOGGLE_FETCH"
 export const LOGOUT_USER = "LOGOUT_USER"
-
-export const SEARCH = "SEARCH"
-
-export const FETCH = "FETCH"

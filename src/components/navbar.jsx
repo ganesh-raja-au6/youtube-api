@@ -1,43 +1,21 @@
-import React, {useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { logout } from "../redux/actions/login";
-import {search} from "../redux/actions/search"
 import {connect} from 'react-redux'
-import {GoogleLogout} from 'react-google-login'
 
-const Navbar = ({user, logout, searchTerm}) => {
-  const [, setUser] = useState("")
-  const [search, setSearch] = useState("")
-  const handleLogin = () => {
-    setUser(user)
-  }
-  const handleLogout = () => {
-    console.log('clicked');
-    logout()
-    setUser(null)
-  }
-  const logoutFailure = (err) => {
-    console.log(err)
-  }
-  const logoutSuccess = (res) => {
-    console.log(res)
-  }
-  const handleSearch = () => {
-    localStorage.removeItem('videos')
-    searchTerm(search)
-  }
+import Logout from './Logout'
+
+const Navbar = ({user}) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <i className="mx-3 fa fa-bars text-muted" aria-hidden="true"></i>
       <Link className="navbar-brand" to="/">
-        <i className="fa fa-youtube-play youtube-icon text-danger" aria-hidden="true"></i>YouTube API <sup>IN</sup>
+        Youtube
       </Link>
       <button
         className="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
@@ -50,49 +28,27 @@ const Navbar = ({user, logout, searchTerm}) => {
               type="search"
               name="search"
               id="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search"
-              className="form-control search"
+              className="form-control"
             />
-            <div className="input-group-append" onClick={handleSearch}>
-              <span className="input-group-text search text-muted">
-                <i className="fa fa-search" aria-hidden="true"></i>
+            <div className="input-group-append">
+              <span className="input-group-text">
+                <i className="fa fa-search"></i>
               </span>
             </div>
           </div>
         </form>
       </div>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <Link
-              className="nav-link mx-4 video-upload-icon"
-              to="/upload-video"
-            >
-              <i className="fa fa-video-camera" aria-hidden="true"></i>
-            </Link>
-          </li>
           {!user ? <li className="nav-item">
-            <Link
-              className="nav-link btn btn-outline-primary text-primary"
-              onClick={handleLogin}
-              to="/signup"
-            >
-              Signup
+            <Link className="nav-link" to="/login">
+              <button className="btn btn-outline-primary">Login</button>
             </Link>
           </li> : <li className="nav-item">
-            <a
-              className="nav-link btn btn-outline-danger text-danger"
-              onClick = {handleLogout}
-            >
-              <GoogleLogout
-              clientId="1059972440198-0cfi6bqplmp54gvf7q1j20uf7cu4mn0p.apps.googleusercontent.com"
-              buttonText="Logout"
-              onLogoutSuccess={logoutSuccess}
-              onLogoutFailure={logoutFailure}
-              />
-            </a>
+            <Link className="nav-link" to="/login">
+              <Logout />
+            </Link>
           </li>}
         </ul>
       </div>
@@ -100,17 +56,10 @@ const Navbar = ({user, logout, searchTerm}) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user : state.loginReducer.user
-  }
+const mapStateToProps = state => {
+    return {
+        user : state.userReducer.user
+    }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout : () => dispatch(logout()),
-    searchTerm : (val) => dispatch(search(val))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps)(Navbar);

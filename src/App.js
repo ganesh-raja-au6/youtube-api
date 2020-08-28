@@ -1,20 +1,18 @@
 import React from "react";
 import "./App.css";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import Navbar from "./components/navbar";
-import Signup from "./pages/signup";
-import Profile from "./pages/profile";
-import Videos from './pages/videos'
+import Navbar from "./components/Navbar";
+import Login from "./pages/LoginPage";
+import Home from "./pages/HomePage";
 
-function App() {
+function App({ user }) {
   return (
     <div className="App">
       <Navbar />
       <Switch>
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/Videos" component={Videos} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Home} />
         <Redirect to="/" />
       </Switch>
     </div>

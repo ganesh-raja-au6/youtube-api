@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import loginReducer from "./reducers/login";
-import searchReducer from "./reducers/search";
+import userReducer from "./reducers/userReducer";
+import videoReducer from "./reducers/videoReducer";
 
-const rootReducers = combineReducers({
-  loginReducer,
-  searchReducer
+const rootReducer = combineReducers({
+  userReducer,
+  videoReducer,
 });
 
-export default rootReducers;
+export default rootReducer;
